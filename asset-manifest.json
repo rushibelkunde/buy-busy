@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/buy-busy/static/css/main.fd177b49.css",
-    "main.js": "/buy-busy/static/js/main.f2ec43cc.js",
-    "index.html": "/buy-busy/index.html",
-    "main.fd177b49.css.map": "/buy-busy/static/css/main.fd177b49.css.map",
-    "main.f2ec43cc.js.map": "/buy-busy/static/js/main.f2ec43cc.js.map"
+    "main.css": "/static/css/main.fd177b49.css",
+    "main.js": "/static/js/main.b299c98c.js",
+    "index.html": "/index.html",
+    "main.fd177b49.css.map": "/static/css/main.fd177b49.css.map",
+    "main.b299c98c.js.map": "/static/js/main.b299c98c.js.map"
   },
   "entrypoints": [
     "static/css/main.fd177b49.css",
-    "static/js/main.f2ec43cc.js"
+    "static/js/main.b299c98c.js"
   ]
 }
