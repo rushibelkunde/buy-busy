@@ -23,7 +23,7 @@ Check out the live demo of our project: [Buy-Busy](https://rushibelkunde.github.
 
 ## Usage
 
-1. Rename `.env.example` to `.env` and update the Firebase configuration with your own credentials.
+1. create `.env` and update the FirebaseInit.js configuration with your own credentials.
 2. Start the development server: `npm start`
 3. Open your browser and visit: `http://localhost:3000`
 
