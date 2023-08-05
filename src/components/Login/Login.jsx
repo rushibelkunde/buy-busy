@@ -1,14 +1,14 @@
 import React from 'react'
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { db, auth } from "../../FirebaseInit"
+import {  auth } from "../../FirebaseInit"
 import { useState } from 'react';
-import { redirect, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 
 function Login() {
 
     // setting states
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('Example@gmail.com');
+    const [password, setPassword] = useState('123456');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate()
     
@@ -41,8 +41,8 @@ function Login() {
             <div className='form-container'>
                 <h2>Login</h2>
                 <form action="" className='form-group'>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+                    <input type="email"  value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+                    <input type="password"  value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
                     <button onClick={handleLogin}>Login</button>
                     {errorMessage && <p className='error-message'>{errorMessage}</p>}
                 </form>

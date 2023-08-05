@@ -67,7 +67,9 @@ function App() {
         user? { path: "/orders", element: <Orders /> } : { path: "/orders", element: <Login /> }
       ]
     }
-  ])
+  ],{
+    basename: "/buy-busy"
+  })
 
 
   // getting user at the initial render
@@ -78,7 +80,7 @@ function App() {
 
   return (
     
-    <RouterProvider router={router}>
+    <RouterProvider router={router} basename={"/buy-busy"}>
 
     </RouterProvider>
     

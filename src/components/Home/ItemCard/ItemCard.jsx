@@ -11,7 +11,7 @@ const ItemCard = ({ id, name, imageUrl, price, description, handleAdd }) => {
         <h3 className="item-name">{name}</h3>
         <p className="item-price">${price}</p>
         <p className="item-description">{description}</p>
-        <button className="add-to-cart-btn" onClick={()=>handleAdd(id, price, imageUrl)}>Add to Cart</button>
+        <button className="add-to-cart-btn" onClick={()=>handleAdd(id, price, imageUrl, name)}>Add to Cart</button>
       </div>
     </div>
   );

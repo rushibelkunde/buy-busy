@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { UserContext } from '../../UserContext';
 import { db } from '../../FirebaseInit';
 
@@ -9,7 +9,7 @@ import CartCard from './CartCard';
 
 import "./Cart.css"
 import { useNavigate } from 'react-router-dom';
-import {useValue} from "../../UserContext"
+
 
 
 
@@ -45,8 +45,8 @@ function Cart() {
     const array = structuredClone(cart)
     const index = cart.findIndex((i) => i.id === id)
     if (index !== -1) {
-      array[index].count != 0?  setTotal(total- array[index].price) : setTotal(total - 0)
-      array[index].count == 1?  removeProduct(id) : array[index].count-= 1
+      array[index].count !== 0?  setTotal(total- array[index].price) : setTotal(total - 0)
+      array[index].count === 1?  removeProduct(id) : array[index].count-= 1
       setCart(array)
     }
     const userRef = doc(db, "users", user.uid);
@@ -68,7 +68,7 @@ function Cart() {
       });
       setCart(array)
     }
-    if(cart.length == 1){
+    if(cart.length === 1){
       setTotal(0)
     }
   }
@@ -79,11 +79,21 @@ function Cart() {
     setOrder(cart)
 
     const orders = structuredClone(order)
+
+    const carts = structuredClone(cart)
+
+    carts.forEach((c)=>{
+      c.date = new Date().toLocaleDateString()
+    })
+
+    orders.forEach((o)=>{
+      o.date = new Date().toLocaleDateString()
+    })
     
     const userRef = doc(db, "users", user.uid);
     await updateDoc(userRef, {
         cart: [],
-        orders: orders.concat(cart)
+        orders: orders.concat(carts)
       });
     setTotal(0)
     setCart([])

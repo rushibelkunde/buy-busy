@@ -51,12 +51,12 @@ function Navbar({user, signOutUser}) {
   }
   
   //add items to cart function
-  const handleAdd=async (id, price, imageUrl)=>{
+  const handleAdd=async (id, price, imageUrl, name)=>{
     const array = structuredClone(cart)
     const index = cart.findIndex((i)=> i.id === id)
     if(index===-1){
-      array.push({id, count: 1, price, imageUrl})
-      setCart([...cart, {id, count: 1, price, imageUrl}])
+      array.push({id, name, count: 1, price, imageUrl})
+      setCart([...cart, {id, name ,count: 1, price, imageUrl}])
     }
     else{
       console.log(array[index].count)
@@ -87,7 +87,7 @@ function Navbar({user, signOutUser}) {
         <div className='left-nav'>
           <h2 onClick={()=>navigate("/")}><StorefrontIcon /> BuyBusy</h2>
           <div>
-            {user?<input type="search" name="" id="" onChange={(e)=>{setInput(e.target.value)}} placeholder='Search Products' /> : ""}
+            {user?<input type="search" name="" id="search" onChange={(e)=>{setInput(e.target.value)}} placeholder='Search Products' /> : ""}
           </div>
         </div>
         <div >{user?<h2 className='displayName'>Welcome {user.displayName}</h2>:""}</div>

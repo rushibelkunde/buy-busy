@@ -36,6 +36,7 @@ const Orders = () => {
             <p>Price: ${product.price}</p>
             <p>Quantity: {product.count}</p>
             <p>Total: ${product.price * product.count}</p>
+            <small>{product.date}</small>
           </div>
         </div>
       ))}

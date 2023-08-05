@@ -13,6 +13,11 @@ a{
     text-decoration: none;
 }
 
+a:hover{
+    color: darkgray;
+    transform:scale(105%)
+}
+
 .navbar div{
     display: flex;
     justify-content: center;
@@ -22,6 +27,11 @@ a{
 
 .navbar h2{
     margin-left: 20px;
+}
+
+.navbar h2:hover{
+    cursor: pointer;
+
 }
 
 .navbar input{
@@ -39,6 +49,11 @@ a{
     font-weight: 500;
 }
 
+.right-nav div:hover{
+    cursor: pointer;
+    color: darkgray;
+}
+
 
 
 .active{
@@ -47,7 +62,7 @@ a{
 
 @media only screen and (max-width: 600px){
 
-    input, .displayName{
+    #search, .displayName{
         display: none;
     }
 
