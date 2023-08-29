@@ -7,34 +7,32 @@ import { UserContext } from '../../UserContext';
 
 import { db } from '../../FirebaseInit';
 import { doc, updateDoc , getDoc} from "firebase/firestore";
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from '../../redux/reducer';
+
+import { asyncAddToCart, asyncGetCart } from '../../redux/reducer';
 
 
 function Navbar({user, signOutUser}) {
+
+  const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const cart = useSelector((state)=> state.cart)
+  
+
   // setting states 
-  const [total, setTotal] = useState(0)
-  const [cart, setCart] = useState([])
+  
   const [input, setInput] = useState("")
   const [order, setOrder] = useState([])
 
 
+  
+
+
   // get cart function
   const getCart = async () => {
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      var totalAmount = 0
-      console.log("Document data:", userSnap.data());
-      setCart(userSnap.data().cart)
-      userSnap.data().cart.forEach((cartItem) => {
-              totalAmount += cartItem.price*cartItem.count
-            })
-            setTotal(totalAmount)
-    } else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-    }
+    dispatch(asyncGetCart({userId: user.uid}))
   }
 
   //getOrders function
@@ -52,22 +50,8 @@ function Navbar({user, signOutUser}) {
   
   //add items to cart function
   const handleAdd=async (id, price, imageUrl, name)=>{
-    const array = structuredClone(cart)
-    const index = cart.findIndex((i)=> i.id === id)
-    if(index===-1){
-      array.push({id, name, count: 1, price, imageUrl})
-      setCart([...cart, {id, name ,count: 1, price, imageUrl}])
-    }
-    else{
-      console.log(array[index].count)
-      array[index].count += 1
-      setCart(array)
-    }
-    const userRef = doc(db, "users", user.uid);
-    console.log(cart)
-    await updateDoc(userRef, {
-      cart: array
-    });
+
+    dispatch(asyncAddToCart({userId: user.uid, cart, id, price, imageUrl, name}))
 
     alert("item added to cart")
   }
@@ -81,7 +65,7 @@ function Navbar({user, signOutUser}) {
   },[])
   
   return (
-    <UserContext.Provider value={{user:user, input , handleAdd, getCart, cart, setCart, total, setTotal, order, setOrder , getOrders}}>
+    <UserContext.Provider value={{user:user, input , handleAdd, getCart, order, setOrder , getOrders}}>
     
       <div className='navbar'>
         <div className='left-nav'>

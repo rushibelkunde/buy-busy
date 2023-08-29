@@ -10,67 +10,39 @@ import CartCard from './CartCard';
 import "./Cart.css"
 import { useNavigate } from 'react-router-dom';
 
+import { actions } from '../../redux/reducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { asyncIncreaseCount, asyncDecreaseCount, asyncRemoveProduct } from '../../redux/reducer';
+
 
 
 
 function Cart() {
   
   // getting states and functions to maintain cart
-  const { user , getCart, cart, setCart, total, setTotal,order, setOrder} = useContext(UserContext)
+  const { user , getCart,order, setOrder} = useContext(UserContext)
 
+  const dispatch = useDispatch()
+
+  const cart = useSelector((state)=> state.cart)
+
+  const [total, setTotal] = useState(0)
   const navigate = useNavigate()
-
-  console.log("user", user)
-
-
 
   // function to increase count of items
   const increaseCount = async (id) => {
-    const array = structuredClone(cart)
-    const index = cart.findIndex((i) => i.id === id)
-    if (index !== -1) {
-      setTotal(total + array[index].price)
-      array[index].count += 1
-      setCart(array)
-    }
-    const userRef = doc(db, "users", user.uid);
-    await updateDoc(userRef, {
-      cart: array
-    });
-    
+    dispatch(asyncIncreaseCount({id, userId: user.uid, cart}))
   }
+  
 
   //function to decrease count of items
   const decreaseCount = async(id) => {
-    const array = structuredClone(cart)
-    const index = cart.findIndex((i) => i.id === id)
-    if (index !== -1) {
-      array[index].count !== 0?  setTotal(total- array[index].price) : setTotal(total - 0)
-      array[index].count === 1?  removeProduct(id) : array[index].count-= 1
-      setCart(array)
-    }
-    const userRef = doc(db, "users", user.uid);
-    await updateDoc(userRef, {
-      cart: array
-    });
+    dispatch(asyncDecreaseCount({id, userId: user.uid, cart}))
    }
 
   //function to remove items from cart
   const removeProduct = async(id) => { 
-    const index = cart.findIndex((i) => i.id === id)
-    console.log(index)
-    if (index !== -1) {
-      const array = cart.filter((i)=> i.id !== id )
-      setTotal(total- cart[index].price* cart[index].count)
-      const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        cart: array
-      });
-      setCart(array)
-    }
-    if(cart.length === 1){
-      setTotal(0)
-    }
+    dispatch(asyncRemoveProduct({id, userId: user.uid, cart}))
   }
 
 
@@ -96,7 +68,7 @@ function Cart() {
         orders: orders.concat(carts)
       });
     setTotal(0)
-    setCart([])
+    
     navigate("/orders")
   }
   
@@ -107,9 +79,19 @@ function Cart() {
   // getting cart info at initial render
   useEffect(() => {
     getCart()
+
+    var sum = 0
+
+    cart.forEach((i)=>{
+    sum+= i.price* i.count
+    })
+
+    setTotal(sum)
+    
+    
     // getTotalPrice()
     
-  }, [])
+  }, [cart])
 
   return (
 
